@@ -1,6 +1,6 @@
-;; Machine description for Moxie
+;; Machine description for gaspard
 ;; Copyright (C) 2009-2014 Free Software Foundation, Inc.
-;; Contributed by Anthony Green <green@moxielogic.com>
+;; Contributed by Anthony Green <green@gaspardlogic.com>
 
 ;; This file is part of GCC.
 
@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 
 ;; -------------------------------------------------------------------------
-;; Moxie specific constraints, predicates and attributes
+;; gaspard specific constraints, predicates and attributes
 ;; -------------------------------------------------------------------------
 
 (include "constraints.md")
@@ -45,7 +45,7 @@
   [(set (match_operand:SI 0 "register_operand" "=r,r,r")
 	  (plus:SI
 	   (match_operand:SI 1 "register_operand" "0,0,0")
-	   (match_operand:SI 2 "moxie_add_operand" "I,N,r")))]
+	   (match_operand:SI 2 "gaspard_add_operand" "I,N,r")))]
   ""
   "@
   inc    %0, %2
@@ -56,7 +56,7 @@
   [(set (match_operand:SI 0 "register_operand" "=r,r")
 	  (minus:SI
 	   (match_operand:SI 1 "register_operand" "0,0")
-	   (match_operand:SI 2 "moxie_sub_operand" "I,r")))]
+	   (match_operand:SI 2 "gaspard_sub_operand" "I,r")))]
   ""
   "@
   dec    %0, %2
@@ -224,7 +224,7 @@
 
 (define_insn "*movsi"
   [(set (match_operand:SI 0 "nonimmediate_operand" "=r,r,r,W,A,r,r,B,r")
-	(match_operand:SI 1 "moxie_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
+	(match_operand:SI 1 "gaspard_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
   "register_operand (operands[0], SImode)
    || register_operand (operands[1], SImode)"
   "@
@@ -302,7 +302,7 @@
 
 (define_insn "*movqi"
   [(set (match_operand:QI 0 "nonimmediate_operand" "=r,r,r,W,A,r,r,B,r")
-	(match_operand:QI 1 "moxie_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
+	(match_operand:QI 1 "gaspard_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
   "register_operand (operands[0], QImode)
    || register_operand (operands[1], QImode)"
   "@
@@ -330,7 +330,7 @@
 
 (define_insn "*movhi"
   [(set (match_operand:HI 0 "nonimmediate_operand" "=r,r,r,W,A,r,r,B,r")
-	(match_operand:HI 1 "moxie_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
+	(match_operand:HI 1 "gaspard_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
   "(register_operand (operands[0], HImode)
     || register_operand (operands[1], HImode))"
   "@
@@ -479,7 +479,7 @@
   ""
   "
 {
-  moxie_expand_prologue ();
+  gaspard_expand_prologue ();
   DONE;
 }
 ")
@@ -489,7 +489,7 @@
   ""
   "
 {
-  moxie_expand_epilogue ();
+  gaspard_expand_epilogue ();
   DONE;
 }
 ")

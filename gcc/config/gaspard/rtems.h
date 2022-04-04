@@ -1,6 +1,6 @@
-/* Definitions for rtems targeting the Moxie core.
+/* Definitions for rtems targeting the gaspard core.
    Copyright (C) 2010-2014 Free Software Foundation, Inc.
-   Contributed by Anthony Green (green@moxielogic.com)
+   Contributed by Anthony Green (green@gaspardlogic.com)
 
 This file is part of GCC.
 
@@ -22,7 +22,7 @@ along with GCC; see the file COPYING3.  If not see
 #define TARGET_OS_CPP_BUILTINS()		\
   do						\
     {						\
-      builtin_define_std ("moxie");		\
+      builtin_define_std ("gaspard");		\
       builtin_define ("__rtems__");		\
       builtin_assert ("system=rtems");		\
     }						\

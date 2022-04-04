@@ -1,6 +1,6 @@
-;; Constraint definitions for Moxie
+;; Constraint definitions for gaspard
 ;; Copyright (C) 2009-2014 Free Software Foundation, Inc.
-;; Contributed by Anthony Green <green@moxielogic.com>
+;; Contributed by Anthony Green <green@gaspardlogic.com>
 
 ;; This file is part of GCC.
 

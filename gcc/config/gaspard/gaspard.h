@@ -1,4 +1,4 @@
-/* Target Definitions for moxie.
+/* Target Definitions for gaspard.
    Copyright (C) 2008-2014 Free Software Foundation, Inc.
    Contributed by Anthony Green.
 
@@ -18,8 +18,8 @@
    along with GCC; see the file COPYING3.  If not see
    <http://www.gnu.org/licenses/>.  */
 
-#ifndef GCC_MOXIE_H
-#define GCC_MOXIE_H
+#ifndef GCC_gaspard_H
+#define GCC_gaspard_H
 
 #undef  STARTFILE_SPEC
 #define STARTFILE_SPEC "%{!mno-crt0:crt0%O%s} crti.o%s crtbegin.o%s"
@@ -105,26 +105,26 @@
   "$r10", "$r11", "$r12", "$r13",   \
   "?fp", "?ap", "$pc", "?cc" }
 
-#define MOXIE_FP     0
-#define MOXIE_SP     1
-#define MOXIE_R0     2
-#define MOXIE_R1     3 
-#define MOXIE_R2     4
-#define MOXIE_R3     5
-#define MOXIE_R4     6
-#define MOXIE_R5     7
-#define MOXIE_R6     8
-#define MOXIE_R7     9
-#define MOXIE_R8     10
-#define MOXIE_R9     11
-#define MOXIE_R10    12
-#define MOXIE_R11    13
-#define MOXIE_R12    14
-#define MOXIE_R13    15
-#define MOXIE_QFP    16
-#define MOXIE_QAP    17
-#define MOXIE_PC     18
-#define MOXIE_CC     19
+#define gaspard_FP     0
+#define gaspard_SP     1
+#define gaspard_R0     2
+#define gaspard_R1     3 
+#define gaspard_R2     4
+#define gaspard_R3     5
+#define gaspard_R4     6
+#define gaspard_R5     7
+#define gaspard_R6     8
+#define gaspard_R7     9
+#define gaspard_R8     10
+#define gaspard_R9     11
+#define gaspard_R10    12
+#define gaspard_R11    13
+#define gaspard_R12    14
+#define gaspard_R13    15
+#define gaspard_QFP    16
+#define gaspard_QAP    17
+#define gaspard_PC     18
+#define gaspard_CC     19
 
 #define FIRST_PSEUDO_REGISTER 20
 
@@ -171,27 +171,16 @@ enum reg_class
 /* We can't copy to or from our CC register. */
 #define AVOID_CCMODE_COPIES 1
 
-/* A C expression that is nonzero if it is permissible to store a
-   value of mode MODE in hard register number REGNO (or in several
-   registers starting with that one).  All gstore registers are 
-   equivalent, so we can set this to 1.  */
-#define HARD_REGNO_MODE_OK(R,M) 1
+
 
 /* A C expression whose value is a register class containing hard
    register REGNO.  */
-#define REGNO_REG_CLASS(R) ((R < MOXIE_PC) ? GENERAL_REGS :		\
-                            (R == MOXIE_CC ? CC_REGS : SPECIAL_REGS))
+#define REGNO_REG_CLASS(R) ((R < gaspard_PC) ? GENERAL_REGS :		\
+                            (R == gaspard_CC ? CC_REGS : SPECIAL_REGS))
 
-/* A C expression for the number of consecutive hard registers,
-   starting at register number REGNO, required to hold a value of mode
-   MODE.  */
-#define HARD_REGNO_NREGS(REGNO, MODE)			   \
-  ((GET_MODE_SIZE (MODE) + UNITS_PER_WORD - 1)		   \
-   / UNITS_PER_WORD)
 
-/* A C expression that is nonzero if a value of mode MODE1 is
-   accessible in mode MODE2 without copying.  */
-#define MODES_TIEABLE_P(MODE1, MODE2) 1
+
+
 
 /* The Overall Framework of an Assembler File */
 
@@ -214,9 +203,9 @@ enum reg_class
 
 /* A C compound statement to output to stdio stream STREAM the
    assembler syntax for an instruction operand X.  */
-#define PRINT_OPERAND(STREAM, X, CODE) moxie_print_operand (STREAM, X, CODE)
+#define PRINT_OPERAND(STREAM, X, CODE) gaspard_print_operand (STREAM, X, CODE)
 
-#define PRINT_OPERAND_ADDRESS(STREAM ,X) moxie_print_operand_address (STREAM, X)
+#define PRINT_OPERAND_ADDRESS(STREAM ,X) gaspard_print_operand_address (STREAM, X)
 
 /* Output and Generation of Labels */
 
@@ -237,9 +226,9 @@ enum reg_class
 
 /* A C statement (sans semicolon) for initializing the variable CUM
    for the state at the beginning of the argument list.  
-   For moxie, the first arg is passed in register 2 (aka $r0).  */
+   For gaspard, the first arg is passed in register 2 (aka $r0).  */
 #define INIT_CUMULATIVE_ARGS(CUM,FNTYPE,LIBNAME,FNDECL,N_NAMED_ARGS) \
-  (CUM = MOXIE_R0)
+  (CUM = gaspard_R0)
 
 /* How Scalar Function Values Are Returned */
 
@@ -247,13 +236,11 @@ enum reg_class
 
 /* Define this macro if pushing a word onto the stack moves the stack
    pointer to a smaller address.  */
-#define STACK_GROWS_DOWNWARD
+#define STACK_GROWS_DOWNWARD 0
 
 #define INITIAL_FRAME_POINTER_OFFSET(DEPTH) (DEPTH) = 0
 
-/* Offset from the frame pointer to the first local variable slot to
-   be allocated.  */
-#define STARTING_FRAME_OFFSET 0
+
 
 /* Define this if the above stack space is to be considered part of the
    space allocated by the caller.  */
@@ -276,7 +263,7 @@ enum reg_class
 /* Define this macro as a C expression that is nonzero for registers that are
    used by the epilogue or the return pattern.  The stack and frame
    pointer registers are already assumed to be used as needed.  */
-#define EPILOGUE_USES(R) (R == MOXIE_R5)
+#define EPILOGUE_USES(R) (R == gaspard_R5)
 
 /* A C expression whose value is RTL representing the location of the
    incoming return address at the beginning of any function, before
@@ -343,10 +330,7 @@ enum reg_class
 #define MAX_FIXED_MODE_SIZE 32
 
 /* Make strings word-aligned so strcpy from constants will be faster.  */
-#define CONSTANT_ALIGNMENT(EXP, ALIGN)  \
-  ((TREE_CODE (EXP) == STRING_CST	\
-    && (ALIGN) < FASTEST_ALIGNMENT)	\
-   ? FASTEST_ALIGNMENT : (ALIGN))
+
 
 /* Make arrays of chars word-aligned for the same reasons.  */
 #define DATA_ALIGNMENT(TYPE, ALIGN)		\
@@ -376,17 +360,17 @@ enum reg_class
 
 /* The register number of the stack pointer register, which must also
    be a fixed register according to `FIXED_REGISTERS'.  */
-#define STACK_POINTER_REGNUM MOXIE_SP
+#define STACK_POINTER_REGNUM gaspard_SP
 
 /* The register number of the frame pointer register, which is used to
    access automatic variables in the stack frame.  */
-#define FRAME_POINTER_REGNUM MOXIE_QFP
+#define FRAME_POINTER_REGNUM gaspard_QFP
 
 /* The register number of the arg pointer register, which is used to
    access the function's argument list.  */
-#define ARG_POINTER_REGNUM MOXIE_QAP
+#define ARG_POINTER_REGNUM gaspard_QAP
 
-#define HARD_FRAME_POINTER_REGNUM MOXIE_FP
+#define HARD_FRAME_POINTER_REGNUM gaspard_FP
 
 #define ELIMINABLE_REGS							\
 {{ FRAME_POINTER_REGNUM, HARD_FRAME_POINTER_REGNUM },			\
@@ -398,12 +382,12 @@ enum reg_class
    defined.  */
 #define INITIAL_ELIMINATION_OFFSET(FROM, TO, OFFSET)			\
   do {									\
-    (OFFSET) = moxie_initial_elimination_offset ((FROM), (TO));		\
+    (OFFSET) = gaspard_initial_elimination_offset ((FROM), (TO));		\
   } while (0)
 
 /* A C expression that is nonzero if REGNO is the number of a hard
    register in which function arguments are sometimes passed.  */
-#define FUNCTION_ARG_REGNO_P(r) (r >= MOXIE_R0 && r <= MOXIE_R5)
+#define FUNCTION_ARG_REGNO_P(r) (r >= gaspard_R0 && r <= gaspard_R5)
 
 /* A macro whose definition is the name of the class to which a valid
    base register must belong.  A base register is one used in an
@@ -430,13 +414,13 @@ enum reg_class
 
 /* A C expression which is nonzero if register number NUM is suitable
    for use as an index register in operand addresses.  */
-#define REGNO_OK_FOR_INDEX_P(NUM) MOXIE_FP
+#define REGNO_OK_FOR_INDEX_P(NUM) gaspard_FP
 
 /* The maximum number of bytes that a single instruction can move
    quickly between memory and registers or between two memory
    locations.  */
 #define MOVE_MAX 4
-#define TRULY_NOOP_TRUNCATION(op,ip) 1
+
 
 /* All load operations zero extend.  */
 #define LOAD_EXTEND_OP(MEM) ZERO_EXTEND
@@ -445,7 +429,7 @@ enum reg_class
    valid memory address.  */
 #define MAX_REGS_PER_ADDRESS 1
 
-#define TRULY_NOOP_TRUNCATION(op,ip) 1
+
 
 /* An alias for a machine mode name.  This is the machine mode that
    elements of a jump-table should have.  */
@@ -478,14 +462,14 @@ enum reg_class
 
 #define TARGET_CPU_CPP_BUILTINS() \
   { \
-    builtin_define_std ("moxie");			\
-    builtin_define_std ("MOXIE");			\
+    builtin_define_std ("gaspard");			\
+    builtin_define_std ("gaspard");			\
     if (TARGET_LITTLE_ENDIAN)				\
-      builtin_define ("__MOXIE_LITTLE_ENDIAN__");	\
+      builtin_define ("__gaspard_LITTLE_ENDIAN__");	\
     else						\
-      builtin_define ("__MOXIE_BIG_ENDIAN__");		\
+      builtin_define ("__gaspard_BIG_ENDIAN__");		\
   }
 
 #define HAS_LONG_UNCOND_BRANCH true
 
-#endif /* GCC_MOXIE_H */
+#endif /* GCC_gaspard_H */

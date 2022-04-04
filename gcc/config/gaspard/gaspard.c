@@ -1,4 +1,4 @@
-/* Target Code for moxie
+/* Target Code for gaspard
    Copyright (C) 2008-2014 Free Software Foundation, Inc.
    Contributed by Anthony Green.
 
@@ -53,14 +53,14 @@
 #define LOSE_AND_RETURN(msgid, x)		\
   do						\
     {						\
-      moxie_operand_lossage (msgid, x);		\
+      gaspard_operand_lossage (msgid, x);		\
       return;					\
     } while (0)
 
 /* Worker function for TARGET_RETURN_IN_MEMORY.  */
 
 static bool
-moxie_return_in_memory (const_tree type, const_tree fntype ATTRIBUTE_UNUSED)
+gaspard_return_in_memory (const_tree type, const_tree fntype ATTRIBUTE_UNUSED)
 {
   const HOST_WIDE_INT size = int_size_in_bytes (type);
   return (size == -1 || size > 2 * UNITS_PER_WORD);
@@ -71,35 +71,35 @@ moxie_return_in_memory (const_tree type, const_tree fntype ATTRIBUTE_UNUSED)
    If the precise function being called is known, FUNC is its
    FUNCTION_DECL; otherwise, FUNC is 0.  
 
-   We always return values in register $r0 for moxie.  */
+   We always return values in register $r0 for gaspard.  */
 
 static rtx
-moxie_function_value (const_tree valtype, 
+gaspard_function_value (const_tree valtype, 
 		      const_tree fntype_or_decl ATTRIBUTE_UNUSED,
 		      bool outgoing ATTRIBUTE_UNUSED)
 {
-  return gen_rtx_REG (TYPE_MODE (valtype), MOXIE_R0);
+  return gen_rtx_REG (TYPE_MODE (valtype), gaspard_R0);
 }
 
 /* Define how to find the value returned by a library function.
 
-   We always return values in register $r0 for moxie.  */
+   We always return values in register $r0 for gaspard.  */
 
 static rtx
-moxie_libcall_value (enum machine_mode mode,
+gaspard_libcall_value (enum machine_mode mode,
                      const_rtx fun ATTRIBUTE_UNUSED)
 {
-  return gen_rtx_REG (mode, MOXIE_R0);
+  return gen_rtx_REG (mode, gaspard_R0);
 }
 
 /* Handle TARGET_FUNCTION_VALUE_REGNO_P.
 
-   We always return values in register $r0 for moxie.  */
+   We always return values in register $r0 for gaspard.  */
 
 static bool
-moxie_function_value_regno_p (const unsigned int regno)
+gaspard_function_value_regno_p (const unsigned int regno)
 {
-  return (regno == MOXIE_R0);
+  return (regno == gaspard_R0);
 }
 
 /* Emit an error message when we're in an asm, and a fatal error for
@@ -108,7 +108,7 @@ moxie_function_value_regno_p (const unsigned int regno)
    categorization of the error.  */
 
 static void
-moxie_operand_lossage (const char *msgid, rtx op)
+gaspard_operand_lossage (const char *msgid, rtx op)
 {
   debug_rtx (op);
   output_operand_lossage ("%s", msgid);
@@ -117,7 +117,7 @@ moxie_operand_lossage (const char *msgid, rtx op)
 /* The PRINT_OPERAND_ADDRESS worker.  */
 
 void
-moxie_print_operand_address (FILE *file, rtx x)
+gaspard_print_operand_address (FILE *file, rtx x)
 {
   switch (GET_CODE (x))
     {
@@ -164,7 +164,7 @@ moxie_print_operand_address (FILE *file, rtx x)
 /* The PRINT_OPERAND worker.  */
 
 void
-moxie_print_operand (FILE *file, rtx x, int code)
+gaspard_print_operand (FILE *file, rtx x, int code)
 {
   rtx operand = x;
 
@@ -188,7 +188,7 @@ moxie_print_operand (FILE *file, rtx x, int code)
   switch (GET_CODE (operand))
     {
     case REG:
-      if (REGNO (operand) > MOXIE_R13)
+      if (REGNO (operand) > gaspard_R13)
 	internal_error ("internal error: bad register: %d", REGNO (operand));
       fprintf (file, "%s", reg_names[REGNO (operand)]);
       return;
@@ -227,7 +227,7 @@ struct GTY(()) machine_function
 /* Zero initialization is OK for all current fields.  */
 
 static struct machine_function *
-moxie_init_machine_status (void)
+gaspard_init_machine_status (void)
 {
   return ggc_alloc_cleared_machine_function ();
 }
@@ -236,17 +236,17 @@ moxie_init_machine_status (void)
 /* The TARGET_OPTION_OVERRIDE worker.
    All this curently does is set init_machine_status.  */
 static void
-moxie_option_override (void)
+gaspard_option_override (void)
 {
   /* Set the per-function-data initializer.  */
-  init_machine_status = moxie_init_machine_status;
+  init_machine_status = gaspard_init_machine_status;
 }
 
 /* Compute the size of the local area and the size to be adjusted by the
  * prologue and epilogue.  */
 
 static void
-moxie_compute_frame (void)
+gaspard_compute_frame (void)
 {
   /* For aligning the local variables.  */
   int stack_alignment = STACK_BOUNDARY / BITS_PER_UNIT;
@@ -277,12 +277,12 @@ moxie_compute_frame (void)
 }
 
 void
-moxie_expand_prologue (void)
+gaspard_expand_prologue (void)
 {
   int regno;
   rtx insn;
 
-  moxie_compute_frame ();
+  gaspard_compute_frame ();
 
   if (flag_stack_usage_info)
     current_function_static_stack_size = cfun->machine->size_for_adjusting_sp;
@@ -317,7 +317,7 @@ moxie_expand_prologue (void)
 	}
       else
 	{
-	  rtx reg = gen_rtx_REG (SImode, MOXIE_R12);
+	  rtx reg = gen_rtx_REG (SImode, gaspard_R12);
 	  insn = emit_move_insn (reg, GEN_INT (i));
 	  RTX_FRAME_RELATED_P (insn) = 1;
 	  insn = emit_insn (gen_subsi3 (stack_pointer_rtx, 
@@ -329,14 +329,14 @@ moxie_expand_prologue (void)
 }
 
 void
-moxie_expand_epilogue (void)
+gaspard_expand_epilogue (void)
 {
   int regno;
   rtx reg;
 
   if (cfun->machine->callee_saved_reg_size != 0)
     {
-      reg = gen_rtx_REG (Pmode, MOXIE_R12);
+      reg = gen_rtx_REG (Pmode, gaspard_R12);
       if (cfun->machine->callee_saved_reg_size <= 255)
 	{
 	  emit_move_insn (reg, hard_frame_pointer_rtx);
@@ -365,14 +365,14 @@ moxie_expand_epilogue (void)
 /* Implements the macro INITIAL_ELIMINATION_OFFSET, return the OFFSET.  */
 
 int
-moxie_initial_elimination_offset (int from, int to)
+gaspard_initial_elimination_offset (int from, int to)
 {
   int ret;
   
   if ((from) == FRAME_POINTER_REGNUM && (to) == HARD_FRAME_POINTER_REGNUM)
     {
       /* Compute this since we need to use cfun->machine->local_vars_size.  */
-      moxie_compute_frame ();
+      gaspard_compute_frame ();
       ret = -cfun->machine->callee_saved_reg_size;
     }
   else if ((from) == ARG_POINTER_REGNUM && (to) == HARD_FRAME_POINTER_REGNUM)
@@ -386,7 +386,7 @@ moxie_initial_elimination_offset (int from, int to)
 /* Worker function for TARGET_SETUP_INCOMING_VARARGS.  */
 
 static void
-moxie_setup_incoming_varargs (cumulative_args_t cum_v,
+gaspard_setup_incoming_varargs (cumulative_args_t cum_v,
 			      enum machine_mode mode ATTRIBUTE_UNUSED,
 			      tree type ATTRIBUTE_UNUSED,
 			      int *pretend_size, int no_rtl)
@@ -415,7 +415,7 @@ moxie_setup_incoming_varargs (cumulative_args_t cum_v,
 /* Return the fixed registers used for condition codes.  */
 
 static bool
-moxie_fixed_condition_code_regs (unsigned int *p1, unsigned int *p2)
+gaspard_fixed_condition_code_regs (unsigned int *p1, unsigned int *p2)
 {
   *p1 = CC_REG;
   *p2 = INVALID_REGNUM;
@@ -426,7 +426,7 @@ moxie_fixed_condition_code_regs (unsigned int *p1, unsigned int *p2)
    NULL_RTX if there's no more space.  */
 
 static rtx
-moxie_function_arg (cumulative_args_t cum_v, enum machine_mode mode,
+gaspard_function_arg (cumulative_args_t cum_v, enum machine_mode mode,
 		    const_tree type ATTRIBUTE_UNUSED,
 		    bool named ATTRIBUTE_UNUSED)
 {
@@ -438,18 +438,18 @@ moxie_function_arg (cumulative_args_t cum_v, enum machine_mode mode,
     return NULL_RTX;
 }
 
-#define MOXIE_FUNCTION_ARG_SIZE(MODE, TYPE)	\
+#define gaspard_FUNCTION_ARG_SIZE(MODE, TYPE)	\
   ((MODE) != BLKmode ? GET_MODE_SIZE (MODE)	\
    : (unsigned) int_size_in_bytes (TYPE))
 
 static void
-moxie_function_arg_advance (cumulative_args_t cum_v, enum machine_mode mode,
+gaspard_function_arg_advance (cumulative_args_t cum_v, enum machine_mode mode,
 			    const_tree type, bool named ATTRIBUTE_UNUSED)
 {
   CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
 
-  *cum = (*cum < MOXIE_R6
-	  ? *cum + ((3 + MOXIE_FUNCTION_ARG_SIZE (mode, type)) / 4)
+  *cum = (*cum < gaspard_R6
+	  ? *cum + ((3 + gaspard_FUNCTION_ARG_SIZE (mode, type)) / 4)
 	  : *cum);
 }
 
@@ -457,7 +457,7 @@ moxie_function_arg_advance (cumulative_args_t cum_v, enum machine_mode mode,
    passed by reference.  */
 
 static bool
-moxie_pass_by_reference (cumulative_args_t cum ATTRIBUTE_UNUSED,
+gaspard_pass_by_reference (cumulative_args_t cum ATTRIBUTE_UNUSED,
 			 enum machine_mode mode, const_tree type,
 			 bool named ATTRIBUTE_UNUSED)
 {
@@ -480,7 +480,7 @@ moxie_pass_by_reference (cumulative_args_t cum ATTRIBUTE_UNUSED,
    that fit in argument passing registers.  */
 
 static int
-moxie_arg_partial_bytes (cumulative_args_t cum_v,
+gaspard_arg_partial_bytes (cumulative_args_t cum_v,
 			 enum machine_mode mode,
 			 tree type, bool named)
 {
@@ -490,7 +490,7 @@ moxie_arg_partial_bytes (cumulative_args_t cum_v,
   if (*cum >= 8)
     return 0;
 
-  if (moxie_pass_by_reference (cum_v, mode, type, named))
+  if (gaspard_pass_by_reference (cum_v, mode, type, named))
     size = 4;
   else if (type)
     {
@@ -512,7 +512,7 @@ moxie_arg_partial_bytes (cumulative_args_t cum_v,
 /* Worker function for TARGET_STATIC_CHAIN.  */
 
 static rtx
-moxie_static_chain (const_tree fndecl, bool incoming_p)
+gaspard_static_chain (const_tree fndecl, bool incoming_p)
 {
   rtx addr, mem;
 
@@ -533,7 +533,7 @@ moxie_static_chain (const_tree fndecl, bool incoming_p)
 /* Worker function for TARGET_ASM_TRAMPOLINE_TEMPLATE.  */
 
 static void
-moxie_asm_trampoline_template (FILE *f)
+gaspard_asm_trampoline_template (FILE *f)
 {
   fprintf (f, "\tpush  $sp, $r0\n");
   fprintf (f, "\tldi.l $r0, 0x0\n");
@@ -546,7 +546,7 @@ moxie_asm_trampoline_template (FILE *f)
 /* Worker function for TARGET_TRAMPOLINE_INIT.  */
 
 static void
-moxie_trampoline_init (rtx m_tramp, tree fndecl, rtx chain_value)
+gaspard_trampoline_init (rtx m_tramp, tree fndecl, rtx chain_value)
 {
   rtx mem, fnaddr = XEXP (DECL_RTL (fndecl), 0);
 
@@ -567,48 +567,48 @@ moxie_trampoline_init (rtx m_tramp, tree fndecl, rtx chain_value)
 #define TARGET_PROMOTE_PROTOTYPES	hook_bool_const_tree_true
 
 #undef  TARGET_RETURN_IN_MEMORY
-#define TARGET_RETURN_IN_MEMORY		moxie_return_in_memory
+#define TARGET_RETURN_IN_MEMORY		gaspard_return_in_memory
 #undef  TARGET_MUST_PASS_IN_STACK
 #define TARGET_MUST_PASS_IN_STACK	must_pass_in_stack_var_size
 #undef  TARGET_PASS_BY_REFERENCE
-#define TARGET_PASS_BY_REFERENCE        moxie_pass_by_reference
+#define TARGET_PASS_BY_REFERENCE        gaspard_pass_by_reference
 #undef  TARGET_ARG_PARTIAL_BYTES
-#define TARGET_ARG_PARTIAL_BYTES        moxie_arg_partial_bytes
+#define TARGET_ARG_PARTIAL_BYTES        gaspard_arg_partial_bytes
 #undef  TARGET_FUNCTION_ARG
-#define TARGET_FUNCTION_ARG		moxie_function_arg
+#define TARGET_FUNCTION_ARG		gaspard_function_arg
 #undef  TARGET_FUNCTION_ARG_ADVANCE
-#define TARGET_FUNCTION_ARG_ADVANCE	moxie_function_arg_advance
+#define TARGET_FUNCTION_ARG_ADVANCE	gaspard_function_arg_advance
 
 
 #undef  TARGET_SETUP_INCOMING_VARARGS
-#define TARGET_SETUP_INCOMING_VARARGS 	moxie_setup_incoming_varargs
+#define TARGET_SETUP_INCOMING_VARARGS 	gaspard_setup_incoming_varargs
 
 #undef	TARGET_FIXED_CONDITION_CODE_REGS
-#define	TARGET_FIXED_CONDITION_CODE_REGS moxie_fixed_condition_code_regs
+#define	TARGET_FIXED_CONDITION_CODE_REGS gaspard_fixed_condition_code_regs
 
 /* Define this to return an RTX representing the place where a
    function returns or receives a value of data type RET_TYPE, a tree
    node node representing a data type.  */
 #undef TARGET_FUNCTION_VALUE
-#define TARGET_FUNCTION_VALUE moxie_function_value
+#define TARGET_FUNCTION_VALUE gaspard_function_value
 #undef TARGET_LIBCALL_VALUE
-#define TARGET_LIBCALL_VALUE moxie_libcall_value
+#define TARGET_LIBCALL_VALUE gaspard_libcall_value
 #undef TARGET_FUNCTION_VALUE_REGNO_P
-#define TARGET_FUNCTION_VALUE_REGNO_P moxie_function_value_regno_p
+#define TARGET_FUNCTION_VALUE_REGNO_P gaspard_function_value_regno_p
 
 #undef TARGET_FRAME_POINTER_REQUIRED
 #define TARGET_FRAME_POINTER_REQUIRED hook_bool_void_true
 
 #undef TARGET_STATIC_CHAIN
-#define TARGET_STATIC_CHAIN moxie_static_chain
+#define TARGET_STATIC_CHAIN gaspard_static_chain
 #undef TARGET_ASM_TRAMPOLINE_TEMPLATE
-#define TARGET_ASM_TRAMPOLINE_TEMPLATE moxie_asm_trampoline_template
+#define TARGET_ASM_TRAMPOLINE_TEMPLATE gaspard_asm_trampoline_template
 #undef TARGET_TRAMPOLINE_INIT
-#define TARGET_TRAMPOLINE_INIT moxie_trampoline_init
+#define TARGET_TRAMPOLINE_INIT gaspard_trampoline_init
 
 #undef TARGET_OPTION_OVERRIDE
-#define TARGET_OPTION_OVERRIDE moxie_option_override
+#define TARGET_OPTION_OVERRIDE gaspard_option_override
 
 struct gcc_target targetm = TARGET_INITIALIZER;
 
-#include "gt-moxie.h"
+#include "gt-gaspard.h"

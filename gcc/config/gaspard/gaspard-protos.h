@@ -1,4 +1,4 @@
-/* Prototypes for moxie.c functions used in the md file & elsewhere.
+/* Prototypes for gaspard.c functions used in the md file & elsewhere.
    Copyright (C) 2009-2014 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with GCC; see the file COPYING3.  If not see
 <http://www.gnu.org/licenses/>.  */
 
-extern void  moxie_expand_prologue (void);
-extern void  moxie_expand_epilogue (void);
-extern int   moxie_initial_elimination_offset (int, int);
-extern void  moxie_print_operand (FILE *, rtx, int);
-extern void  moxie_print_operand_address (FILE *, rtx);
+extern void  gaspard_expand_prologue (void);
+extern void  gaspard_expand_epilogue (void);
+extern int   gaspard_initial_elimination_offset (int, int);
+extern void  gaspard_print_operand (FILE *, rtx, int);
+extern void  gaspard_print_operand_address (FILE *, rtx);
