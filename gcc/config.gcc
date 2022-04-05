@@ -345,7 +345,7 @@ arc*-*-*)
 	;;
 gaspard*-*-*)
 	cpu_type=gaspard
-	
+	target_has_targetm_common=no
  	 ;;	
 arm*-*-*)
 	cpu_type=arm

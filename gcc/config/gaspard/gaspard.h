@@ -18,8 +18,8 @@
    along with GCC; see the file COPYING3.  If not see
    <http://www.gnu.org/licenses/>.  */
 
-#ifndef GCC_gaspard_H
-#define GCC_gaspard_H
+#ifndef GCC_GASPARD_H
+#define GCC_GASPARD_H
 
 #undef  STARTFILE_SPEC
 #define STARTFILE_SPEC "%{!mno-crt0:crt0%O%s} crti.o%s crtbegin.o%s"

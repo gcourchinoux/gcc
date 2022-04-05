@@ -1,6 +1,6 @@
 # Target Makefile Fragment for gaspard
 # Copyright (C) 2008-2014 Free Software Foundation, Inc.
-# Contributed by Anthony Green.
+
 #
 # This file is part of GCC.
 #
@@ -18,6 +18,4 @@
 # along with GCC; see the file COPYING3.  If not see
 # <http://www.gnu.org/licenses/>.
 
-MULTILIB_OPTIONS     = meb/mel
-MULTILIB_DIRNAMES    = eb el
 

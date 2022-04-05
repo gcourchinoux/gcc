@@ -127,6 +127,8 @@ ft32*)	cpu_type=ft32
 	;;
 moxie*)	cpu_type=moxie
 	;;
+gaspard*) cpu_type=gaspard
+	;;	
 i[34567]86-*-*)
 	cpu_type=i386
 	;;
