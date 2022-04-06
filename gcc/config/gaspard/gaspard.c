@@ -66,9 +66,14 @@ int gaspard_comp_type_attributes (const tree_node *type1, const tree_node *type2
 	 
 	 printf("print oprand adress \n");
 	}
-
+rtx gaspard_function_value(const_tree ret_type, const_tree fn_decl_or_type, bool outgoing) {
+	
+	
+}
 
 #undef TARGET_COMP_TYPE_ATTRIBUTES
 #define TARGET_COMP_TYPE_ATTRIBUTES gaspard_comp_type_attributes
+#undef TARGET_FUNCTION_VALUE
+#define TARGET_FUNCTION_VALUE gaspard_function_value
 struct gcc_target targetm = TARGET_INITIALIZER;
 
