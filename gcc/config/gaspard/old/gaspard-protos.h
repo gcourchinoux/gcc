@@ -1,5 +1,5 @@
 /* Prototypes for gaspard.c functions used in the md file & elsewhere.
-   Copyright (C) 2009-2020 Free Software Foundation, Inc.
+   Copyright (C) 2009-2014 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -20,4 +20,5 @@ along with GCC; see the file COPYING3.  If not see
 extern void  gaspard_expand_prologue (void);
 extern void  gaspard_expand_epilogue (void);
 extern int   gaspard_initial_elimination_offset (int, int);
-extern bool  gaspard_offset_address_p (rtx);
+extern void  gaspard_print_operand (FILE *, rtx, int);
+extern void  gaspard_print_operand_address (FILE *, rtx);
