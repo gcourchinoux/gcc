@@ -113,7 +113,7 @@
 	   (match_operand:SI 1 "register_operand" "0")
 	   (match_operand:SI 2 "register_operand" "r")))]
   ""
-  "udiv\\t%0, %2")
+  "div\\t%0, %2")
 
 (define_insn "modsi3"
   [(set (match_operand:SI 0 "register_operand" "=r")
@@ -129,7 +129,7 @@
 	   (match_operand:SI 1 "register_operand" "0")
 	   (match_operand:SI 2 "register_operand" "r")))]
   ""
-  "umod\\t%0, %2")
+  "mod\\t%0, %2")
 
 ;; -------------------------------------------------------------------------
 ;; Unary arithmetic instructions
@@ -220,14 +220,14 @@
   [(set (mem:SI (pre_dec:SI (reg:SI 1)))
   	(match_operand:SI 0 "register_operand" "r"))]
   ""
-  "push\\t$sp, %0")
+  "push\\t%0")
 
 ;; Pop a register from the stack
 (define_insn "movsi_pop"
   [(set (match_operand:SI 1 "register_operand" "=r")
   	(mem:SI (post_inc:SI (match_operand:SI 0 "register_operand" "r"))))]
   ""
-  "pop\\t%0, %1")
+  "pop\\t%0")
 
 (define_expand "movsi"
    [(set (match_operand:SI 0 "general_operand" "")

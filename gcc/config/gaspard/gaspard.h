@@ -99,11 +99,11 @@
 */
 
 #define REGISTER_NAMES {	\
-  "$fp", "$sp", "$r0", "$r1",   \
-  "$r2", "$r3", "$r4", "$r5",   \
-  "$r6", "$r7", "$r8", "$r9",   \
-  "$r10", "$r11", "$r12", "$r13",   \
-  "?fp", "?ap", "$pc", "?cc" }
+  "GPR0", "GPR1", "GPR2", "GPR3",   \
+  "GPR4", "GPR5", "GPR6", "GPR7",   \
+  "GPR8", "GPR9", "GPR10", "GPR11",   \
+  "GPR12", "GPR13", "GPR14", "GPR15",   \
+  "GPR16", "GPR17", "GPR18", "GPR19" }
 
 #define gaspard_FP     0
 #define gaspard_SP     1
