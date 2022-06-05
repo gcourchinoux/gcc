@@ -49,7 +49,7 @@
   ""
   "@
   inc\\t%0, %2
-  dec\\t%0, -%2
+  dec\\t%0, %2
   add\\t%0, %2")
 
 (define_insn "subsi3"

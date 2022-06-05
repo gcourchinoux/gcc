@@ -54,8 +54,5 @@ LAST_UPDATED
 REVISION
 
 # ignore in-tree prerequisites
-/mpfr*
-/mpc*
-/gmp*
-/isl*
+
 /build
