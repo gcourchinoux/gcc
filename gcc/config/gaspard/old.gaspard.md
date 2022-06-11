@@ -188,7 +188,7 @@
 		   (match_operand:SI 2 "register_operand" "r")))]
   ""
 {
-  return "shfl\\t%0, %2";
+  return "ashl\\t%0, %2";
 })
 
 (define_insn "ashrsi3"
@@ -197,9 +197,17 @@
 		     (match_operand:SI 2 "register_operand" "r")))]
   ""
 {
-  return "shfr\\t%0, %2";
+  return "ashr\\t%0, %2";
 })
 
+(define_insn "lshrsi3"
+  [(set (match_operand:SI 0 "register_operand" "=r")
+	(lshiftrt:SI (match_operand:SI 1 "register_operand" "0")
+		     (match_operand:SI 2 "register_operand" "r")))]
+  ""
+{
+  return "lshr\\t%0, %2";
+})
 
 ;; -------------------------------------------------------------------------
 ;; Move instructions
@@ -260,6 +268,43 @@
    ldo.l\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
+(define_insn "zero_extendqisi2"
+  [(set (match_operand:SI 0 "register_operand" "=r,r,r,r")
+	(zero_extend:SI (match_operand:QI 1 "nonimmediate_operand" "r,W,A,B")))]
+  ""
+  "@
+   zex.b\\t%0, %1
+   ld.b\\t%0, %1
+   lda.b\\t%0, %1
+   ldo.b\\t%0, %1"
+  [(set_attr "length" "2,2,6,4")])
+
+(define_insn "zero_extendhisi2"
+  [(set (match_operand:SI 0 "register_operand" "=r,r,r,r")
+	(zero_extend:SI (match_operand:HI 1 "nonimmediate_operand" "r,W,A,B")))]
+  ""
+  "@
+   zex.s\\t%0, %1
+   ld.s\\t%0, %1
+   lda.s\\t%0, %1
+   ldo.s\\t%0, %1"
+  [(set_attr "length" "2,2,6,4")])
+
+(define_insn "extendqisi2"
+  [(set (match_operand:SI 0 "register_operand" "=r")
+	(sign_extend:SI (match_operand:QI 1 "nonimmediate_operand" "r")))]
+  ""
+  "@
+   sex.b\\t%0, %1"
+  [(set_attr "length" "2")])
+
+(define_insn "extendhisi2"
+  [(set (match_operand:SI 0 "register_operand" "=r")
+	(sign_extend:SI (match_operand:HI 1 "nonimmediate_operand" "r")))]
+  ""
+  "@
+   sex.s\\t%0, %1"
+  [(set_attr "length" "2")])
 
 (define_expand "movqi"
   [(set (match_operand:QI 0 "general_operand" "")
