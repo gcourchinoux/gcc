@@ -1,6 +1,5 @@
 ;; Machine description for gaspard
 ;; Copyright (C) 2009-2020 Free Software Foundation, Inc.
-;; Contributed by Anthony Green <green@gaspardlogic.com>
 
 ;; This file is part of GCC.
 
@@ -40,17 +39,20 @@
 ;; -------------------------------------------------------------------------
 ;; Arithmetic instructions
 ;; -------------------------------------------------------------------------
-
+(define_insn "radd"
+  [(set (match_operand:SI 0 "register_operand" "=r")
+	  (plus:SI
+	   (match_operand:SI 1 "register_operand" "0")
+	   (match_operand:SI 2 "register_operand" "r")))]
+  ""
+  "add\\t %0,%2")
 (define_insn "addsi3"
   [(set (match_operand:SI 0 "register_operand" "=r,r,r")
 	  (plus:SI
 	   (match_operand:SI 1 "register_operand" "0,0,0")
 	   (match_operand:SI 2 "gaspard_add_operand" "I,N,r")))]
   ""
-  "@
-  inc\\t%0, %2
-  dec\\t%0, %2
-  add\\t%0, %2")
+  "add\\t%0, %2")
 
 (define_insn "subsi3"
   [(set (match_operand:SI 0 "register_operand" "=r,r")
@@ -58,9 +60,7 @@
 	   (match_operand:SI 1 "register_operand" "0,0")
 	   (match_operand:SI 2 "gaspard_sub_operand" "I,r")))]
   ""
-  "@
-  dec\\t%0, %2
-  sub\\t%0, %2")
+  "sub\\t%0, %2")
 
 (define_insn "mulsi3"
   [(set (match_operand:SI 0 "register_operand" "=r")
@@ -250,8 +250,8 @@
    || register_operand (operands[1], SImode)"
   "@
    xor\\t%0, %0
-   mov\\t%0, %1
-   ldi.l\\t%0, %1
+   disp\\t%0, %1
+   disp\\t%0, %1
    st.l\\t%0, %1
    sta.l\\t%0, %1
    ld.l\\t%0, %1

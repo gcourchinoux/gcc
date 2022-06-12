@@ -1,6 +1,5 @@
 /* Target Code for gaspard
    Copyright (C) 2008-2020 Free Software Foundation, Inc.
-   Contributed by Anthony Green.
 
    This file is part of GCC.
 
