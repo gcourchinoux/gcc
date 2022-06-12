@@ -252,11 +252,11 @@
    xor\\t%0, %0
    disp\\t%0, %1
    disp\\t%0, %1
-   st.l\\t%0, %1
-   sta.l\\t%0, %1
-   ld.l\\t%0, %1
-   lda.l\\t%0, %1
-   sto.l\\t%0, %1
+   dispab\\t%0, %1
+   dispa\\t%0, %1
+   disp\\t%0, %1
+   dispa\\t%0, %1
+   disp\\t%0, %1
    disp\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
@@ -279,14 +279,14 @@
    || register_operand (operands[1], QImode)"
   "@
    xor\\t%0, %0
-   mov\\t%0, %1
    disp\\t%0, %1
-   st.b\\t%0, %1
-   sta.b\\t%0, %1
-   ld.b\\t%0, %1
-   lda.b\\t%0, %1
-   sto.b\\t%0, %1
-   ldo.b\\t%0, %1"
+   disp\\t%0, %1
+   dispa\\t%0, %1
+   dispa\\t%0, %1
+   dispab\\t%0, %1
+   dispab\\t%0, %1
+   dispab\\t%0, %1
+   dispab\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
 (define_expand "movhi"
@@ -309,12 +309,12 @@
    xor\\t%0, %0
    mov\\t%0, %1
    disp\\t%0, %1
-   st.s\\t%0, %1
-   sta.s\\t%0, %1
-   ld.s\\t%0, %1
-   lda.s\\t%0, %1
-   sto.s\\t%0, %1
-   ldo.s\\t%0, %1"
+   dispa\\t%0, %1
+   dispa\\t%0, %1
+   disp\\t%0, %1
+   dispa\\t%0, %1
+   dispa\\t%0, %1
+   dispa\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
 ;; -------------------------------------------------------------------------
