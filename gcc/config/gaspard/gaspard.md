@@ -252,7 +252,7 @@
    xor\\t%0, %0
    disp\\t%0, %1
    disp\\t%0, %1
-   dispab\\t%0, %1
+   disp\\t%0, %1
    dispa\\t%0, %1
    disp\\t%0, %1
    dispa\\t%0, %1
