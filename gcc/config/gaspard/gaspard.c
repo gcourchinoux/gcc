@@ -122,7 +122,7 @@ gaspard_print_operand_address (FILE *file, machine_mode, rtx x)
       switch (GET_CODE (XEXP (x, 1)))
 	{
 	case CONST_INT:
-	  fprintf (file, "%disp(%s)", 
+	  fprintf (file, "%ld(%s)", 
 		   INTVAL(XEXP (x, 1)), reg_names[REGNO (XEXP (x, 0))]);
 	  break;
 	case SYMBOL_REF:
