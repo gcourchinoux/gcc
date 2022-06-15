@@ -242,7 +242,8 @@
         operands[1] = gen_rtx_MEM (SImode, force_reg (SImode, XEXP (operands[1], 0)));
   }
 }")
-
+;; "=r,r,r,W,A,r,r,B,r"
+;; "O,r,i,r,r,W,A,r,B"
 (define_insn "*movsi"
   [(set (match_operand:SI 0 "nonimmediate_operand" "=r,r,r,W,A,r,r,B,r")
 	(match_operand:SI 1 "gaspard_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
@@ -252,12 +253,12 @@
    xor\\t%0, %0
    disp\\t%0, %1
    disp\\t%0, %1
+   dispal_write\\t%0,%1 
+   dispal_write\\t%0, %1
    disp\\t%0, %1
-   dispa\\t%0, %1
-   disp\\t%0, %1
-   dispa\\t%0, %1
-   disp\\t%0, %1
-   disp\\t%0, %1"
+   dispal_read\\t%0, %1
+   dispab_write\\t%0, %1
+   dispab_read\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
 
