@@ -272,7 +272,8 @@
   if (MEM_P (operands[0]))
     operands[1] = force_reg (QImode, operands[1]);
 }")
-
+;;"=r,r,r,W,A,r,r,B,r"
+;;"O,r,i,r,r,W,A,r,B"
 (define_insn "*movqi"
   [(set (match_operand:QI 0 "nonimmediate_operand" "=r,r,r,W,A,r,r,B,r")
 	(match_operand:QI 1 "gaspard_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
@@ -282,12 +283,12 @@
    xor\\t%0, %0
    disp\\t%0, %1
    disp\\t%0, %1
-   dispa\\t%0, %1
-   dispa\\t%0, %1
-   dispab\\t%0, %1
-   dispab\\t%0, %1
-   dispab\\t%0, %1
-   dispab\\t%0, %1"
+   dispal_write\\t%0, %1
+   dispal_write\\t%0, %1
+   dispal_read\\t%0, %1
+   dispal_read\\t%0, %1
+   dispab_write\\t%0, %1
+   dispab_read\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
 (define_expand "movhi"
@@ -300,7 +301,8 @@
   if (MEM_P (operands[0]))
     operands[1] = force_reg (HImode, operands[1]);
 }")
-
+;;"=r,r,r,W,A,r,r,B,r"
+;; "O,r,i,r,r,W,A,r,B"
 (define_insn "*movhi"
   [(set (match_operand:HI 0 "nonimmediate_operand" "=r,r,r,W,A,r,r,B,r")
 	(match_operand:HI 1 "gaspard_general_movsrc_operand" "O,r,i,r,r,W,A,r,B"))]
@@ -308,14 +310,14 @@
     || register_operand (operands[1], HImode))"
   "@
    xor\\t%0, %0
-   mov\\t%0, %1
    disp\\t%0, %1
-   dispa\\t%0, %1
-   dispa\\t%0, %1
    disp\\t%0, %1
-   dispa\\t%0, %1
-   dispa\\t%0, %1
-   dispa\\t%0, %1"
+   dispal_write\\t%0, %1
+   dispal_write\\t%0, %1
+   dispal_write\\t%0, %1
+   dispab_write\\t%0, %1
+   dispab_read\\t%0, %1
+   dispab_write\\t%0, %1"
   [(set_attr "length"	"2,2,6,2,6,2,6,4,4")])
 
 ;; -------------------------------------------------------------------------
