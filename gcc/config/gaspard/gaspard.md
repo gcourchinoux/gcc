@@ -421,7 +421,7 @@
 		       1 "immediate_operand" "i"))
 	      (match_operand 2 "" "")))]
   ""
-  "jsra\\t%1"
+  "jsr\\t%1"
   [(set_attr "length"	"6")])
 
 (define_insn "*call_value_indirect"
